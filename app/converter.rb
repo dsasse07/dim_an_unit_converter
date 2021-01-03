@@ -21,16 +21,33 @@ class Converter
     reset_conversion_factors
     identify_solution_path
     print_solution  ####### Left off here. Need to format print, make more seeds, test other pathways, make interface ###
-    ######## Working on Validating Sig Figs ############
-    binding.pry
-
+    calculate_final_value ### Left off working here
   end
 
   private
 
-  def calculate_final_value
+  # def calculate_final_value
+  #   @starting_value
+  #   @previous_unit = @starting_unit 
+  #   @numerators = [@starting_unit]
+  #   @denominators = []
 
-  end
+  #   @solution_factors.each do |factor|
+  #     if factor.unit1_id == @previous_unit.id
+  #       @numerators << Unit.find(factor.unit2_id)
+  #       @previous_unit = Unit.find(factor.unit1_id)
+  #       @denominators << @previous_unit
+  #       @starting_value *= (factor.unit2_value/factor.unit1_value)
+  #     else factor.unit2_id == @previous_unit.id
+  #       @numerators << Unit.find(factor.unit1_id)
+  #       @previous_unit = Unit.find(factor.unit2_id)
+  #       @denominators << @previous_unit
+  #       @starting_value *= (factor.unit1_value/factor.unit2_value)
+  #     end
+  #   end
+  #   binding.pry
+
+  # end
   
   def print_solution
     string = [@starting_unit.unit, " --> "]
@@ -68,7 +85,6 @@ class Converter
     @starting_sig_figs = set_sig_figs
     @starting_value = @starting_value.signif(@starting_sig_figs)
     validate_sig_figs
-    binding.pry
   end
 
   def set_sig_figs
@@ -79,7 +95,7 @@ class Converter
     if @starting_value.class == Integer
       @starting_sig_figs = count_sf_integer
     else 
-      @starting_sig_figs = count_sf_num_below_one
+      @starting_sig_figs = count_sf_float
     end
   end
 
