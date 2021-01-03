@@ -21,6 +21,7 @@ class Converter
     reset_conversion_factors
     identify_solution_path
     print_solution  ####### Left off here. Need to format print, make more seeds, test other pathways, make interface ###
+    ######## Working on Validating Sig Figs ############
     binding.pry
 
   end
@@ -67,20 +68,32 @@ class Converter
     @starting_sig_figs = set_sig_figs
     @starting_value = @starting_value.signif(@starting_sig_figs)
     validate_sig_figs
+    binding.pry
   end
 
   def set_sig_figs
     @starting_sig_figs = random_num_sig_figs
   end
 
-  # def validate_sig_figs
-  #   if Math.log(@starting_value, 10) < @starting_sig_figs
-  #     @starting_sig_figs = @starting_value.to_s.count("^0")
-  #   elsif @starting_value.to_s.first == 0
-  #     @starting_sig_figs = @starting_value.match(/[^0\.0+]\d*/).count
-  #   end
+  def validate_sig_figs
+    if @starting_value.class == Integer
+      @starting_sig_figs = count_sf_integer
+    else 
+      @starting_sig_figs = count_sf_num_below_one
+    end
+  end
 
-  # end
+  def count_sf_integer
+    @starting_value.to_s.scan(/\d*[^0]/).first.length
+  end
+
+  def count_sf_float
+    if @starting_value.to_s.first == 0
+      @starting_value.match(/[^0\.0*]\d*/).first.length
+    else 
+      @starting_value.to_s.count("^.")
+    end
+  end
 
   def random_num_sig_figs
     (1..4).to_a.sample
